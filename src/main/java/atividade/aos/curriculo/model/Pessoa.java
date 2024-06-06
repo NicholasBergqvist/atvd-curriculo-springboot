@@ -46,4 +46,14 @@ public class Pessoa {
 
     public Pessoa(String nome,String email,String telefone,String sobre){
     }
+
+    public Pessoa(String nome, String email, String telefone, String sobre, List<Graduacao> graduacoes, List<Especializacao> especializacoes, List<ExpProfissional> trabalhos) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.sobre = sobre;
+        this.graduacoes = graduacoes;
+        this.especializacoes = especializacoes;
+        this.trabalhos = trabalhos;
+    }
 }
