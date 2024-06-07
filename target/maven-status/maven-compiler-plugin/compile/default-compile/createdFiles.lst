@@ -1,0 +1,17 @@
+atividade\aos\curriculo\model\Especializacao.class
+atividade\aos\curriculo\service\GraducaoService.class
+atividade\aos\curriculo\service\PessoaService.class
+atividade\aos\curriculo\controller\GraduacaoController.class
+atividade\aos\curriculo\repository\ExpProfissionalRepository.class
+atividade\aos\curriculo\repository\GraduacaoRepository.class
+atividade\aos\curriculo\model\Pessoa.class
+atividade\aos\curriculo\model\Graduacao.class
+atividade\aos\curriculo\model\ExpProfissional.class
+atividade\aos\curriculo\controller\ExpProfissionalServiceController.class
+atividade\aos\curriculo\CurriculoApplication.class
+atividade\aos\curriculo\controller\PessoaController.class
+atividade\aos\curriculo\repository\PessoaRepository.class
+atividade\aos\curriculo\repository\EspecializacaoRepository.class
+atividade\aos\curriculo\service\EspecializacaoService.class
+atividade\aos\curriculo\service\ExpProfissionalService.class
+atividade\aos\curriculo\controller\EspecializacaoController.class
