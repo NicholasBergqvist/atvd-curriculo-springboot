@@ -1,6 +1,7 @@
 package atividade.aos.curriculo.controller;
 
 import atividade.aos.curriculo.model.ExpProfissional;
+import atividade.aos.curriculo.model.Graduacao;
 import atividade.aos.curriculo.model.Pessoa;
 import atividade.aos.curriculo.service.ExpProfissionalService;
 import atividade.aos.curriculo.service.PessoaService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,20 +37,9 @@ public class ExpProfissionalServiceController {
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<ExpProfissional> criarExpProf(@PathVariable UUID id, @RequestBody ExpProfissional exp){
-        Optional<Pessoa> pessoa = pessoaService.findById(id);
-        if(pessoa.isPresent()){
-            Pessoa p = pessoa.get();
-            List<ExpProfissional> listaExp = p.getTrabalhos();
-            listaExp.add(exp);
-            p.setTrabalhos(listaExp);
-            pessoaService.save(p);
-            exp.setPessoa(p);
-            return ResponseEntity.ok(this.expProfissionalService.save(exp));
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping
+    public ExpProfissional criarExpProf(@RequestBody ExpProfissional exp){
+        return this.expProfissionalService.save(exp);
     }
     @PutMapping("/{id}")
     public ResponseEntity<ExpProfissional> alterarExpProf(@PathVariable Long id, @RequestBody ExpProfissional alteracoes){
@@ -60,6 +51,27 @@ public class ExpProfissionalServiceController {
             expAtualizada.setDescricao(alteracoes.getDescricao());
             return ResponseEntity.ok(this.expProfissionalService.save(expAtualizada));
         }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping("/{id}/{idPessoa}")
+    public ResponseEntity<Pessoa> addPessoa(@PathVariable Long id, @PathVariable UUID idPessoa){
+        Optional<Pessoa> p = this.pessoaService.findById(idPessoa);
+        Optional<ExpProfissional> exp = this.expProfissionalService.findById(id);
+        if(p.isPresent()){
+            if(exp.isPresent()){
+                Pessoa pessoa = p.get();
+                ExpProfissional expProfissional = exp.get();
+                List<ExpProfissional> expLista = new ArrayList<>();
+                expLista.add(expProfissional);
+                pessoa.setTrabalhos(expLista);
+                expProfissional.setPessoa(pessoa);
+                this.expProfissionalService.save(expProfissional);
+                return ResponseEntity.ok(this.pessoaService.save(pessoa));
+            }else{
+                return ResponseEntity.notFound().build();
+            }
+        }else {
             return ResponseEntity.notFound().build();
         }
     }

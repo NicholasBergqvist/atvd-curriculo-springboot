@@ -7,6 +7,8 @@ import atividade.aos.curriculo.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,20 +36,9 @@ public class GraduacaoController {
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Graduacao> criarGraduacao(@PathVariable UUID id, @RequestBody Graduacao g){
-        Optional<Pessoa> pessoa = pessoaService.findById(id);
-        if(pessoa.isPresent()){
-            Pessoa p = pessoa.get();
-            List<Graduacao> listaGrad = p.getGraduacoes();
-            listaGrad.add(g);
-            p.setGraduacoes(listaGrad);
-            pessoaService.save(p);
-            g.setPessoa(p);
-            return ResponseEntity.ok(this.graducaoService.save(g));
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping
+    public Graduacao criarGraduacao(@RequestBody Graduacao g){
+        return this.graducaoService.save(g);
     }
     @PutMapping("/{id}")
     public ResponseEntity<Graduacao> alterarGrad(@PathVariable Long id, @RequestBody Graduacao alteracoes){
@@ -61,6 +52,27 @@ public class GraduacaoController {
             gradAtualizada.setDescricao(alteracoes.getDescricao());
             return ResponseEntity.ok(this.graducaoService.save(gradAtualizada));
         }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping("/{id}/{idPessoa}")
+    public ResponseEntity<Pessoa> addPessoa(@PathVariable Long id, @PathVariable UUID idPessoa){
+        Optional<Graduacao> g = this.graducaoService.findById(id);
+        Optional<Pessoa> p = this.pessoaService.findById(idPessoa);
+        if(p.isPresent()){
+            if(g.isPresent()){
+                Pessoa pessoa = p.get();
+                Graduacao graduacao = g.get();
+                List<Graduacao> gLista = new ArrayList<>();
+                gLista.add(graduacao);
+                pessoa.setGraduacoes(gLista);
+                graduacao.setPessoa(pessoa);
+                this.graducaoService.save(graduacao);
+                return ResponseEntity.ok(this.pessoaService.save(pessoa));
+            }else{
+                return ResponseEntity.notFound().build();
+            }
+        }else {
             return ResponseEntity.notFound().build();
         }
     }

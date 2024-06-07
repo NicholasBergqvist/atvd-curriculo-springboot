@@ -31,7 +31,7 @@ public class Especializacao {
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
 
-    public Especializacao(String nomeEspecializacao, String nomePlataforma, String descricao, String cargaHoraria, Pessoa pessoa) {
+    public Especializacao(String nomeEspecializacao, String nomePlataforma, String descricao, String cargaHoraria,Pessoa pessoa) {
         this.nomeEspecializacao = nomeEspecializacao;
         this.nomePlataforma = nomePlataforma;
         this.descricao = descricao;

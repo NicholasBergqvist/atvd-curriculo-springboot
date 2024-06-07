@@ -1,7 +1,6 @@
 package atividade.aos.curriculo.controller;
 
 import atividade.aos.curriculo.model.Especializacao;
-import atividade.aos.curriculo.model.ExpProfissional;
 import atividade.aos.curriculo.model.Pessoa;
 import atividade.aos.curriculo.service.EspecializacaoService;
 import atividade.aos.curriculo.service.PessoaService;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,20 +36,9 @@ public class EspecializacaoController {
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Especializacao> criarEspecializacao(@PathVariable UUID id, @RequestBody Especializacao esp){
-        Optional<Pessoa> pessoa = pessoaService.findById(id);
-        if(pessoa.isPresent()){
-            Pessoa p = pessoa.get();
-            List<Especializacao> listaEsp = p.getEspecializacoes();
-            listaEsp.add(esp);
-            p.setEspecializacoes(listaEsp);
-            pessoaService.save(p);
-            esp.setPessoa(p);
-            return ResponseEntity.ok(this.especializacaoService.save(esp));
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping
+    public Especializacao criarEspecializacao( @RequestBody Especializacao esp){
+        return this.especializacaoService.save(esp);
     }
     @PutMapping("/{id}")
     public ResponseEntity<Especializacao> alterarEspecializacao(@PathVariable Long id, @RequestBody Especializacao alteracoes){
@@ -62,6 +51,29 @@ public class EspecializacaoController {
             espAtualizada.setCargaHoraria(alteracoes.getCargaHoraria());
             return ResponseEntity.ok(this.especializacaoService.save(espAtualizada));
         }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}/{idPessoa}")
+    public ResponseEntity<Pessoa> addPessoa(@PathVariable Long id, @PathVariable UUID idPessoa){
+        Optional<Pessoa> p = this.pessoaService.findById(idPessoa);
+        Optional<Especializacao> esp = this.especializacaoService.findById(id);
+
+        if(p.isPresent()){
+            if(esp.isPresent()){
+                Pessoa pessoa = p.get();
+                Especializacao especializacao = esp.get();
+                List<Especializacao> espLista = new ArrayList<>();
+                espLista.add(especializacao);
+                pessoa.setEspecializacoes(espLista);
+                especializacao.setPessoa(pessoa);
+                this.especializacaoService.save(especializacao);
+                return ResponseEntity.ok(this.pessoaService.save(pessoa));
+            }else{
+                return ResponseEntity.notFound().build();
+            }
+        }else {
             return ResponseEntity.notFound().build();
         }
     }

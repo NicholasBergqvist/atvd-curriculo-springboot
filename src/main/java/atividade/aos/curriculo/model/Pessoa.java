@@ -31,17 +31,17 @@ public class Pessoa {
 
     @Setter
     @JsonManagedReference
-    @OneToMany(cascade=CascadeType.ALL,orphanRemoval = true, mappedBy = "pessoa")
+    @OneToMany(mappedBy = "pessoa",cascade = CascadeType.ALL)
     private List<Graduacao> graduacoes = new ArrayList<Graduacao>();
 
     @Setter
     @JsonManagedReference
-    @OneToMany(cascade=CascadeType.ALL,orphanRemoval = true, mappedBy = "pessoa")
+    @OneToMany(mappedBy = "pessoa",cascade = CascadeType.ALL)
     private List<Especializacao> especializacoes = new ArrayList<Especializacao>();
 
     @Setter
     @JsonManagedReference
-    @OneToMany(cascade=CascadeType.ALL,orphanRemoval = true, mappedBy = "pessoa")
+    @OneToMany(mappedBy = "pessoa",cascade = CascadeType.ALL)
     private List<ExpProfissional> trabalhos = new ArrayList<ExpProfissional>();
 
     public Pessoa(String nome,String email,String telefone,String sobre){

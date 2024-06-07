@@ -1,11 +1,15 @@
 package atividade.aos.curriculo.controller;
 
+import atividade.aos.curriculo.model.Graduacao;
 import atividade.aos.curriculo.model.Pessoa;
+import atividade.aos.curriculo.service.ExpProfissionalService;
+import atividade.aos.curriculo.service.GraducaoService;
 import atividade.aos.curriculo.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,6 +19,10 @@ import java.util.UUID;
 public class PessoaController {
     @Autowired
     private PessoaService pessoaService;
+    @Autowired
+    private GraducaoService graducaoService;
+    @Autowired
+    private ExpProfissionalService expProfissionalService;
 
     @GetMapping
     public List<Pessoa> listarPessoas(){

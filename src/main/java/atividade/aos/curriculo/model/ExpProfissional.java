@@ -27,7 +27,7 @@ public class ExpProfissional {
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
 
-    public ExpProfissional(String nomeEmpresa, String tempoTrab, String descricao, Pessoa pessoa) {
+    public ExpProfissional(String nomeEmpresa, String tempoTrab, String descricao,Pessoa pessoa) {
         this.nomeEmpresa = nomeEmpresa;
         this.tempoTrab = tempoTrab;
         this.descricao = descricao;

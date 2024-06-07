@@ -30,7 +30,7 @@ public class Graduacao {
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
 
-    public Graduacao(String nomeInstituicao, String cursoGraduacao, Long anoInicio, Long anoConclusao, String descricao, Pessoa pessoa) {
+    public Graduacao(String nomeInstituicao, String cursoGraduacao, Long anoInicio, Long anoConclusao, String descricao,Pessoa pessoa) {
         this.nomeInstituicao = nomeInstituicao;
         this.cursoGraduacao = cursoGraduacao;
         this.anoInicio = anoInicio;
